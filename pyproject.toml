@@ -1,0 +1,24 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "ai-auto-committer"
+version = "0.1.0"
+description = "AI-powered Git auto-committer using Groq LLaMA-3"
+authors = [
+    { name = "Peeyush", email = "your.email@example.com" }
+]
+readme = "README.md"
+requires-python = ">=3.7"
+dependencies = [
+    # No external dependencies needed! You only used built-in Python libraries.
+]
+
+[project.scripts]
+# This is the magic line. 
+# It creates a global command 'ai-commit' that runs the 'main' function inside 'auto_commit.py'
+ai-commit = "auto_commit:main"
+
+[tool.setuptools]
+py-modules = ["auto_commit"]
