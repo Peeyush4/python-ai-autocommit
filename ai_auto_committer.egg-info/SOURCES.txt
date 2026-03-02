@@ -1,0 +1,8 @@
+README.md
+auto_commit.py
+pyproject.toml
+ai_auto_committer.egg-info/PKG-INFO
+ai_auto_committer.egg-info/SOURCES.txt
+ai_auto_committer.egg-info/dependency_links.txt
+ai_auto_committer.egg-info/entry_points.txt
+ai_auto_committer.egg-info/top_level.txt
