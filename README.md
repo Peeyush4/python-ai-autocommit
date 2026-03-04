@@ -6,7 +6,7 @@ Stop thinking about what to write in your commit messages. Let AI read your `git
 
 ## ✨ Features
 
-* **Blazing Fast AI**: Powered by Groq's `llama3-70b-versatile` model for near-instant inference.
+* **Blazing Fast AI**: Powered by Groq's `llama-3.3-70b-versatile` model for near-instant inference.
 * **Smart Staging**: Automatically detects unstaged or untracked files and asks if you want to stage them.
 * **"YOLO" Auto Mode**: Bypass all prompts with the `-a` flag to instantly stage, commit, and push in one command.
 * **Zero Heavy Dependencies**: Built entirely with Python's standard library (`urllib`, `subprocess`, `os`, `json`).
