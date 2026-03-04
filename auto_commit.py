@@ -7,7 +7,7 @@ import urllib.error
 import sys
 
 # --- Configuration ---
-MODEL = "llama3-70b-versatile"  # Updated model name to match Groq's latest naming convention
+MODEL = "llama-3.3-70b-versatile"  # Updated model name to match Groq's latest naming convention
 CONFIG_FILE = os.path.expanduser("~/.ai_commit_key")
 
 def get_api_key():
@@ -101,8 +101,29 @@ def generate_commit_message(diff, api_key):
         with urllib.request.urlopen(req) as response:
             result = json.loads(response.read().decode("utf-8"))
             return result['choices'][0]['message']['content'].strip().strip('"').strip("'")
+    except urllib.error.HTTPError as e:
+        print(f"❌ AI Generation failed: HTTP {e.code} {e.reason}")
+        print("🔍 Diagnostics:")
+        print(f"   Endpoint: {url}")
+        print(f"   Model: {MODEL}")
+        try:
+            error_body = e.read().decode("utf-8", errors="replace")
+            if error_body.strip():
+                print(f"   Response Body: {error_body}")
+        except Exception:
+            pass
+        return None
+    except urllib.error.URLError as e:
+        print(f"❌ AI Generation failed: Network error ({e.reason})")
+        print("🔍 Diagnostics:")
+        print(f"   Endpoint: {url}")
+        print(f"   Model: {MODEL}")
+        return None
     except Exception as e:
         print(f"❌ AI Generation failed: {e}")
+        print("🔍 Diagnostics:")
+        print(f"   Endpoint: {url}")
+        print(f"   Model: {MODEL}")
         return None
 
 def main():
