@@ -6,9 +6,20 @@ import urllib.request
 import urllib.error
 import sys
 
+# Ensure UTF-8 encoding for Windows terminals
+if sys.platform == "win32":
+    try:
+        if sys.stdout and hasattr(sys.stdout, "reconfigure"):
+            sys.stdout.reconfigure(encoding="utf-8", errors="replace")
+        if sys.stderr and hasattr(sys.stderr, "reconfigure"):
+            sys.stderr.reconfigure(encoding="utf-8", errors="replace")
+    except Exception:
+        pass
+
 # --- Configuration ---
-MODEL = "llama-3.3-70b-versatile"  # Updated model name to match Groq's latest naming convention
+MODEL = "groq/compound"
 CONFIG_FILE = os.path.expanduser("~/.ai_commit_key")
+
 
 def get_api_key():
     """Retrieves the API key from a local config file, or prompts the user for it."""
@@ -100,7 +111,16 @@ def generate_commit_message(diff, api_key):
         req = urllib.request.Request(url, data=json.dumps(payload).encode("utf-8"), headers=headers)
         with urllib.request.urlopen(req) as response:
             result = json.loads(response.read().decode("utf-8"))
-            return result['choices'][0]['message']['content'].strip().strip('"').strip("'")
+            content = result['choices'][0]['message']['content'].strip()
+            # Ensure we extract the clean commit message even if the model outputs explanations
+            lines = [l.strip() for l in content.splitlines() if l.strip()]
+            commit_line = lines[-1] if lines else content
+            for l in lines:
+                prefix = l.split(":", 1)[0].lower().strip()
+                if prefix in ["feat", "fix", "chore", "refactor", "docs", "style", "test", "perf", "build", "ci", "revert"] or ("(" in prefix and ")" in prefix):
+                    commit_line = l
+                    break
+            return commit_line.strip('`"\' ')
     except urllib.error.HTTPError as e:
         print(f"❌ AI Generation failed: HTTP {e.code} {e.reason}")
         print("🔍 Diagnostics:")

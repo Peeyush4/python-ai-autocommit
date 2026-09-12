@@ -1,12 +1,12 @@
 # AI Auto-Committer 🚀
 
-A lightning-fast, zero-dependency command-line tool that automatically writes professional [Conventional Commit](https://www.conventionalcommits.org/) messages for you using Groq's LLaMA-3 API.
+A lightning-fast, zero-dependency command-line tool that automatically writes professional [Conventional Commit](https://www.conventionalcommits.org/) messages for you using Groq's API.
 
 Stop thinking about what to write in your commit messages. Let AI read your `git diff` and do it for you in milliseconds.
 
 ## ✨ Features
 
-* **Blazing Fast AI**: Powered by Groq's `llama-3.3-70b-versatile` model for near-instant inference.
+* **Blazing Fast AI**: Powered by Groq's `groq/compound` model for intelligent, contextual commit messages.
 * **Smart Staging**: Automatically detects unstaged or untracked files and asks if you want to stage them.
 * **"YOLO" Auto Mode**: Bypass all prompts with the `-a` flag to instantly stage, commit, and push in one command.
 * **Zero Heavy Dependencies**: Built entirely with Python's standard library (`urllib`, `subprocess`, `os`, `json`).
